@@ -5,7 +5,7 @@ const HomePageLayout = ({ children }: { children: React.ReactNode; }) => {
     return (
         <div className='bg-gray-800 min-h-[100vh]'>
             <Navbar />
-            <div className="pt-36">
+            <div className="pt-36 p-4">
                 {children}
             </div>
         </div>

@@ -3,6 +3,7 @@ import { Button } from '@/components/ui/button';
 import { Coins, Flame, Heart, Sparkle } from 'lucide-react';
 import BadgeItem from './BadgeItem';
 import SearchInput from '../search/Search';
+import Link from 'next/link';
 
 const Navbar = () => {
     const [isOpen, setIsOpen] = useState(false);
@@ -21,9 +22,9 @@ const Navbar = () => {
 
     return (
         <nav className="bg-gray-800 p-4 border-b border-b-gray-600 fixed w-full z-50 ">
-            <div className="container mx-auto flex justify-between items-center">
+            <div className="container  flex justify-between items-center">
                 <div className="flex flex-col gap-2">
-                    <div className="text-white text-lg font-bold">Jazmeen</div>
+                    <Link href='/' className="text-white text-lg font-bold">Jazmeen</Link>
                     <div className="hidden md:flex space-x-4">
                         {badges.map(({ icon, label, value }) => (
                             <BadgeItem

@@ -2,13 +2,14 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Card } from '@/components/ui/card';
 import { cardBgImage } from '@/constants/ImageExport';
 import { Zap } from 'lucide-react';
+import Link from 'next/link';
 import React from 'react';
 
 const HomeCard = () => {
     return (
         <Card className="border-gray-700 rounded cursor-pointer hover:-rotate-1 hover:scale-105 hover:border-gray-500">
             {/* Smaller screen layout (less than md) */}
-            <div className="hidden md:block border-gray-700 rounded">
+            <Link href='/testId' className="hidden md:block border-gray-700 rounded">
                 <div className="grid grid-cols-12 gap-2 p-1 rounded-lg shadow-md max-w-2xl mx-auto">
                     <div style={{ backgroundImage: `url(${cardBgImage})` }} className="col-span-4 bg-cover bg-no-repeat row-span-2  p-4 rounded-lg" />
                     {/* top right */}
@@ -58,7 +59,7 @@ const HomeCard = () => {
                         </div>
                     </div>
                 </div>
-            </div>
+            </Link>
 
             {/* Medium and above screen layout (md and above) */}
             <div className="block md:hidden hov">
