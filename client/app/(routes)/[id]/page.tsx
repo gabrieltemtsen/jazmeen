@@ -1,4 +1,3 @@
-import { Card } from '@/components/ui/card';
 import React from 'react';
 import RightGrid from './_components/right-grid/RightGrid';
 
@@ -10,6 +9,7 @@ interface UserProps {
 const User = async ({ params }: UserProps) => {
 
     const { id } = await params;
+    console.log(id);
     return (
         <div className="border-gray-700 rounded p-4">
             <div className="grid grid-cols-12 gap-4 min-h-[70vh]">
@@ -19,7 +19,7 @@ const User = async ({ params }: UserProps) => {
                 </div>
                 {/* Right Section: Appears first on smaller screens, normal order on larger screens */}
                 <div className="col-span-12 xl:col-span-4   rounded-lg order-first md:order-none">
-                   <RightGrid />
+                    <RightGrid />
                 </div>
             </div>
         </div>
