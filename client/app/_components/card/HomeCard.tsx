@@ -1,9 +1,8 @@
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Card } from '@/components/ui/card';
 import { cardBgImage } from '@/constants/ImageExport';
-import { Zap } from 'lucide-react';
 import Link from 'next/link';
 import React from 'react';
+import ActivityIndicator from '../activity-indicator/ActivityIndicator';
 
 const HomeCard = () => {
     return (
@@ -31,33 +30,7 @@ const HomeCard = () => {
                         </div>
                     </div>
                     {/* Bottom right */}
-                    <div className="col-span-8 border-t border-t-gray-500 p-4 -mt-4 rounded-lg">
-                        <div className="flex gap-3 -mt-2 -mb-2">
-                            <div className="">
-                                <Avatar className='h-6 w-6 mt-2'>
-                                    <AvatarImage src="https://github.com/shadcn.png" alt="@shadcn" />
-                                    <AvatarFallback>CN</AvatarFallback>
-                                </Avatar>
-                            </div>
-                            <div className="flex flex-col items-center">
-                                <span className='text-sm text-gray-100'>TOCHI</span>
-                                <div className="flex gap-3">
-                                    <div className="flex gap-1 items-center">
-                                        <Zap className='h-3 w-3 text-green-300' />
-                                        <span className='text-gray-500 text-xs'>1</span>
-                                    </div>
-                                    <div className="flex gap-1 items-center">
-                                        <span className='text-gray-500 text-xs'>3</span>
-                                        <div className="text-gray-500 text-xs">Recast</div>
-                                    </div>
-                                    <div className="flex gap-1 items-center">
-                                        <span className='text-gray-500 text-xs'>3</span>
-                                        <div className="text-gray-500 text-xs">Likes</div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    <ActivityIndicator />
                 </div>
             </Link>
 
@@ -81,35 +54,8 @@ const HomeCard = () => {
                                 <div className="text-gray-500 text-xs">$223.34k</div>
                             </div>
                         </div>
-                        {/* Top Right Section (8 columns) */}
                     </div>
-                    <div className="col-span-12 p-4 rounded-lg border-t border-t-gray-600">
-                        <div className="flex gap-3 -mt-2 -mb-2">
-                            <div className="">
-                                <Avatar className='h-6 w-6 mt-2'>
-                                    <AvatarImage src="https://github.com/shadcn.png" alt="@shadcn" />
-                                    <AvatarFallback>CN</AvatarFallback>
-                                </Avatar>
-                            </div>
-                            <div className="flex flex-col items-center">
-                                <span className='text-sm text-gray-100'>TOCHI</span>
-                                <div className="flex gap-3">
-                                    <div className="flex gap-1 items-center">
-                                        <Zap className='h-3 w-3 text-green-300' />
-                                        <span className='text-gray-500 text-xs'>1</span>
-                                    </div>
-                                    <div className="flex gap-1 items-center">
-                                        <span className='text-gray-500 text-xs'>3</span>
-                                        <div className="text-gray-500 text-xs">Recast</div>
-                                    </div>
-                                    <div className="flex gap-1 items-center">
-                                        <span className='text-gray-500 text-xs'>3</span>
-                                        <div className="text-gray-500 text-xs">Likes</div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    <ActivityIndicator className='col-span-12 p-4 rounded-lg border-t border-t-gray-600' />
                 </div>
             </div>
         </Card>

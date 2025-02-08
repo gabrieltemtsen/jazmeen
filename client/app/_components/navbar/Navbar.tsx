@@ -47,8 +47,8 @@ const Navbar = () => {
                 <div className="flex flex-col ">
                     <div className="flex gap-4 justify-center items-center content-center">
                         <p className='hidden md:block text-gray-300 hover:text-white cursor-pointer'> What is this?</p>
-                        <Button className="hidden md:block bg-slate-500 hover:bg-slate-400 text-white px-4  h-8 rounded">Get Started</Button>
-                        <Button className="hidden md:block bg-slate-500 hover:bg-slate-400 text-white px-4  h-8 rounded">Get Started</Button>
+                        <Button className="hidden md:block bg-slate-500 hover:bg-slate-400 text-white px-4  h-8 rounded">Launch a coin</Button>
+                        <Button className="hidden md:block bg-slate-500 hover:bg-slate-400 text-white px-4  h-8 rounded">Connect</Button>
                     </div>
                     <div className="hidden md:block mt-4">
                         <SearchInput />
@@ -69,8 +69,8 @@ const Navbar = () => {
                     <div className="flex flex-col ">
                         <div className="flex gap-4 justify-center items-center content-center">
                             <p className=' md:block text-gray-300 hover:text-white cursor-pointer'> What is this?</p>
-                            <Button className=" md:block bg-slate-500 hover:bg-slate-400 text-white px-4  h-8 rounded">Get Started</Button>
-                            <Button className=" md:block bg-slate-500 hover:bg-slate-400 text-white px-4  h-8 rounded">Get Started</Button>
+                            <Button className=" md:block bg-slate-500 hover:bg-slate-400 text-white px-4  h-8 rounded">Launch a coin</Button>
+                            <Button className=" md:block bg-slate-500 hover:bg-slate-400 text-white px-4  h-8 rounded">Connect</Button>
                         </div>
                         <div className=" md:block mt-4">
                             <SearchInput />
