@@ -20,7 +20,7 @@ const Navbar = () => {
     ];
 
     return (
-        <nav className="bg-gray-800 p-4">
+        <nav className="bg-gray-800 p-4 border-b border-b-gray-600 fixed w-full z-50 ">
             <div className="container mx-auto flex justify-between items-center">
                 <div className="flex flex-col gap-2">
                     <div className="text-white text-lg font-bold">Jazmeen</div>
