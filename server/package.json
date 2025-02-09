@@ -5,8 +5,8 @@
   "type": "module",
   "scripts": {
     "predev": "node bin/validate-env && node bin/check-x-login",
-    "dev": "tsc-watch --noClear --onEmitDebounceMs 15000 --onSuccess \"pnpm run www-dev\"",
-    "build": "tsc && pnpm run generate-types",
+    "dev": "tsc-watch --noClear --onEmitDebounceMs 15000 --onSuccess \"npm run www-dev\"",
+    "build": "tsc && npm run generate-types",
     "start": "node dist/index.js",
     "lint": "prettier --write . && eslint . --fix --config .eslintrc.json",
     "www-dev": "node bin/www-dev",
@@ -20,8 +20,8 @@
     "@grammyjs/conversations": "^1.2.0",
     "@ngrok/ngrok": "^1.4.1",
     "@solana/web3.js": "^1.98.0",
-    "agent-twitter-client": "^0.0.18",
     "@useorbis/db-sdk": "0.0.60-alpha",
+    "agent-twitter-client": "^0.0.18",
     "axios": "^1.7.7",
     "better-sqlite3": "^11.6.0",
     "cookie-parser": "^1.4.7",
@@ -37,6 +37,7 @@
     "tsc-watch": "^6.2.1"
   },
   "devDependencies": {
+    "@flydotio/dockerfile": "^0.7.4",
     "@typechain/ethers-v6": "^0.5.1",
     "@types/better-sqlite3": "^7.6.12",
     "@types/cookie-parser": "^1.4.8",
