@@ -6,7 +6,6 @@
     "gen-seed": "node ./server/scripts/seed.mjs",
     "deploy-model": "node ./server/scripts/deploy-model.mjs",
     "login-x": "pnpm --filter server run login-x",
-    "preinstall": "npx only-allow pnpm",
     "predev": "pnpm --filter client run predev && pnpm --filter server run predev && pnpm --filter lit-actions run predev",
     "dev": "node scripts/dev",
     "tunnel": "node scripts/tunnel",
@@ -36,6 +35,5 @@
     "node": ">=22"
   },
   "author": "Abridged, Inc.",
-  "license": "MIT",
-  "packageManager": "pnpm@9.14.1"
+  "license": "MIT"
 }
