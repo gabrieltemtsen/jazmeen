@@ -48,6 +48,8 @@ export class TelegramService extends BaseService {
     }
     this.bot = new Bot(process.env.TELEGRAM_BOT_TOKEN);
     this.elizaService = ElizaService.getInstance(this.bot);
+
+    console.log("ELIZA don start");
   }
 
   public static getInstance(webhookUrl?: string): TelegramService {
@@ -85,11 +87,10 @@ export class TelegramService extends BaseService {
       this.bot.api.setMyCommands([
         {
           command: "start",
-          description: "Add any hello world functionality to your bot",
+          description: "Say HI to Jazmeen",
         },
-        { command: "mint", description: "Mint a token on Wow.xyz" },
-        { command: "eliza", description: "Talk to the AI agent" },
-        { command: "lit", description: "Execute a Lit action" },
+        { command: "memecoins", description: "Deploy memecoins on celo" },
+        { command: "jazmeen", description: "Talk to Jazmeen" },
       ]);
       // all command handlers can be registered here
       this.bot.command("start", (ctx) => ctx.reply("Hello!"));
@@ -99,20 +100,12 @@ export class TelegramService extends BaseService {
       await this.elizaService.start();
       // required when starting server for telegram webooks
       this.nGrokService = await NgrokService.getInstance();
-      try {
-        // try starting the twitter service
-        this.twitterService = await TwitterService.getInstance();
-        await this.twitterService?.start();
-        console.log(
-          "Twitter Bot Profile:",
-          JSON.stringify(this.twitterService.me, null, 2)
-        );
-      } catch (err) {
-        console.log(
-          "[WARN] [telegram.service] Unable to use twitter. Functionality will be disabled",
-          err
-        );
-      }
+
+      this.bot.command("memecoins", (ctx) =>
+        ctx.reply(
+          "Sorry deploying memecoins are still in development, we'll notify you as soon as it is availble for now you can talk with /jazmeen!"
+        )
+      );
 
       this.bot.command("mint", async (ctx) => {
         try {
