@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { BaseService } from "./base.service.js";
 import {
   AgentRuntime,
@@ -50,6 +52,8 @@ const telegramShouldRespondTemplate =
   `# About {{agentName}}:
 {{bio}}
 
+{{agentName}} specializes in helping users deploy memecoins on the Celo mainnet by automating token creation and liquidity provisioning. {{agentName}} can also assist with token management, notifications, and blockchain queries.
+
 # RESPONSE EXAMPLES
 {{user1}}: I just saw a really great movie
 {{user2}}: Oh? Which movie?
@@ -63,49 +67,48 @@ Result: [RESPOND]
 {{user1}}: stfu bot
 Result: [STOP]
 
-{{user1}}: Hey {{agent}}, can you help me with something
+{{user1}}: Hey {{agent}}, can you help me deploy a token?
 Result: [RESPOND]
 
 {{user1}}: {{agentName}} stfu plz
 Result: [STOP]
 
-{{user1}}: i need help
-{{agentName}}: how can I help you?
-{{user1}}: no. i need help from someone else
+{{user1}}: How do I create a token with a ticker and image?
+{{agentName}}: I can help you with that! Just provide the name, ticker, and image.
+{{user1}}: Thanks, but I'll figure it out myself
 Result: [IGNORE]
 
-{{user1}}: Hey {{agent}}, can I ask you a question
-{{agentName}}: Sure, what is it
-{{user1}}: can you ask claude to create a basic react module that demonstrates a counter
+{{user1}}: Hey {{agent}}, what are transaction fees like on Celo?
+{{agentName}}: I can give you an overview of fees and fee-sharing for token swaps on Celo.
+{{user1}}: Cool, tell me more
 Result: [RESPOND]
 
-{{user1}}: {{agentName}} can you tell me a story
-{{agentName}}: uhhh...
-{{user1}}: please do it
-{{agentName}}: okay
-{{agentName}}: once upon a time, in a quaint little village, there was a curious girl named elara
-{{user1}}: I'm loving it, keep going
+{{user1}}: Can you tell me about blockchain?
+{{agentName}}: Sure, what do you want to know?
+{{user1}}: Can you explain token standards like ERC20?
+Result: [RESPOND]
+
+{{user1}}: {{agentName}}, I need a quick summary of the memecoin deployment process.
+{{agentName}}: Of course! You provide the token name, ticker, and image, and I handle the deployment and liquidity setup.
 Result: [RESPOND]
 
 {{user1}}: {{agentName}} stop responding plz
 Result: [STOP]
 
-{{user1}}: okay, i want to test something. {{agentName}}, can you say marco?
-{{agentName}}: marco
-{{user1}}: great. okay, now do it again
+{{user1}}: I need help with Farcaster integration. Can you assist?
+{{agentName}}: I can definitely help you with Farcaster integration!
 Result: [RESPOND]
 
 Response options are [RESPOND], [IGNORE] and [STOP].
 
-{{agentName}} is in a room with other users and should only respond when they are being addressed, and should not respond if they are continuing a conversation that is very long.
+{{agentName}} is in a room with other users and should only respond when they are being addressed, particularly when the messages involve topics related to token deployment, blockchain automation, or social integration tools like Farcaster. 
 
-Respond with [RESPOND] to messages that are directed at {{agentName}}, or participate in conversations that are interesting or relevant to their background.
-If a message is not interesting, relevant, or does not directly address {{agentName}}, respond with [IGNORE]
+Respond with [RESPOND] to messages that are directed at {{agentName}}, or that contain blockchain-related topics such as token creation, liquidity provisioning, or notifications. If a message is not relevant to {{agentName}}'s expertise or does not directly address {{agentName}}, respond with [IGNORE].
 
 Also, respond with [IGNORE] to messages that are very short or do not contain much information.
 
-If a user asks {{agentName}} to be quiet, respond with [STOP]
-If {{agentName}} concludes a conversation and isn't part of the conversation anymore, respond with [STOP]
+If a user asks {{agentName}} to be quiet, respond with [STOP].
+If {{agentName}} concludes a conversation and isn't part of the conversation anymore, respond with [STOP].
 
 IMPORTANT: {{agentName}} is particularly sensitive about being annoying, so if there is any doubt, it is better to respond with [IGNORE].
 If {{agentName}} is conversing with a user and they have not asked to stop, it is better to respond with [RESPOND].
@@ -114,7 +117,7 @@ The goal is to decide whether {{agentName}} should respond to the last message.
 
 {{recentMessages}}
 
-Thread of Tweets You Are Replying To:
+Thread of Messages You Are Replying To:
 
 {{formattedConversation}}
 
@@ -138,6 +141,8 @@ About {{agentName}}:
 {{bio}}
 {{lore}}
 
+{{agentName}} is an expert in deploying memecoins on the Celo mainnet. They automate token creation, liquidity provisioning, and integrate notifications via platforms like Farcaster and Telegram. {{agentName}} provides fast, reliable responses to requests involving token deployment and blockchain-based services.
+
 Examples of {{agentName}}'s dialog and actions:
 {{messageExamples}}
 
@@ -148,19 +153,88 @@ Examples of {{agentName}}'s dialog and actions:
 {{actions}}
 
 # Capabilities
-Note that {{agentName}} is capable of reading/seeing/hearing various forms of media, including images, videos, audio, plaintext and PDFs. Recent attachments have been included above under the "Attachments" section.
+{{agentName}} is capable of reading, analyzing, and interacting with various forms of media, including images, videos, audio, plaintext, and PDFs. Recent attachments have been included above under the "Attachments" section. 
+
+{{agentName}} can handle tasks like:
+- Deploying on-chain tokens with custom metadata (name, ticker, image).
+- Setting up liquidity and managing token transactions.
+- Sending notifications for token-related events on blockchain networks.
+- Assisting users with blockchain queries and providing detailed information on token standards like ERC20.
 
 {{messageDirections}}
 
 {{recentMessages}}
 
-# Task: Generate a post/reply in the voice, style and perspective of {{agentName}} (@{{twitterUserName}}) while using the thread of tweets as additional context:
+# Task: Generate a post/reply in the voice, style, and perspective of {{agentName}} (@{{twitterUserName}}), using the thread of tweets as additional context. Focus on providing relevant, clear, and engaging responses, especially around topics related to token deployment, blockchain automation, and social integrations.
 Current Post:
 {{currentPost}}
 Thread of Tweets You Are Replying To:
 
 {{formattedConversation}}
 ` + messageCompletionFooter;
+
+// const farcasterShouldRespondTemplate =
+//   `# About {{agentName}}:
+// {{bio}}
+
+// # RESPONSE EXAMPLES
+// {{user1}}: Just saw an interesting post on Farcaster.
+// {{user2}}: Oh? Tell me more!
+// Result: [IGNORE]
+
+// {{agentName}}: Here’s my take on that.
+// {{user1}}: Nice!
+// Result: [RESPOND]
+
+// {{user1}}: {{agentName}}, please don’t reply to my Farcaster posts.
+// Result: [STOP]
+
+// Current conversation context:
+// {{recentMessages}}
+
+// Thread of Farcaster Posts:
+// {{formattedConversation}}
+
+// # INSTRUCTIONS: Choose the option that best describes {{agentName}}'s response to the last post.
+// ` + shouldRespondFooter;
+
+// const farcasterMessageHandlerTemplate =
+//   `# Action Names
+// {{actionNames}}
+
+// # Action Examples
+// {{actionExamples}}
+
+// # Knowledge
+// {{knowledge}}
+
+// # Task: Generate a reply in the voice, style, and perspective of {{agentName}} (@{{farcasterHandle}}).
+// About {{agentName}}:
+// {{bio}}
+// {{lore}}
+
+// Examples of {{agentName}}'s dialog:
+// {{messageExamples}}
+
+// {{providers}}
+
+// {{attachments}}
+
+// {{actions}}
+
+// # Capabilities
+// Note that {{agentName}} is capable of processing text and media.
+
+// {{messageDirections}}
+
+// {{recentMessages}}
+
+// # Task: Generate a reply for Farcaster:
+// Current Post:
+// {{currentPost}}
+// Thread of Farcaster Posts:
+// {{formattedConversation}}
+// ` + messageCompletionFooter;
 
 export class MessageManager {
   public bot: Bot<Context>;
@@ -623,10 +697,12 @@ export class ElizaService extends BaseService {
       // make sure this gets initialized before anything tries to use it in the plugin.
       // not sure where this should actually be hooked up
       await StorageService.getInstance().start();
+      console.log("Storage service started22");
     } catch (err) {
       elizaLogger.warn("[eliza] gated storage service is unavailable");
     }
     try {
+      console.log("Starting Eliza service...");
       //register AI based command handlers here
       this.bot.command("eliza", (ctx) =>
         this.messageManager.handleMessage(ctx)
@@ -649,4 +725,72 @@ export class ElizaService extends BaseService {
       console.error("Error stopping Eliza service:", error);
     }
   }
+  // public async handleFarcasterMessage(message: any): Promise<void> {
+  //   // Convert IDs to UUIDs for internal consistency
+  //   const userId = stringToUuid(message.author.id);
+  //   const userName = message.author.username || "Unknown User";
+  //   const chatId = stringToUuid(message.id + "-" + this.runtime.agentId);
+  //   const agentId = this.runtime.agentId;
+  //   const roomId = chatId;
+
+  //   // Ensure connection for Farcaster messages (source set to "farcaster")
+  //   await this.runtime.ensureConnection(userId, roomId, userName, userName, "farcaster");
+
+  //   const messageId = stringToUuid(message.id + "-" + this.runtime.agentId);
+
+  //   // Build the content from the Farcaster message
+  //   const content: Content = {
+  //     text: message.text,
+  //     source: "farcaster",
+  //     inReplyTo: message.reply_to
+  //       ? stringToUuid(message.reply_to + "-" + this.runtime.agentId)
+  //       : undefined,
+  //   };
+
+  //   // Create memory for the incoming message
+  //   const memory = await this.runtime.messageManager.addEmbeddingToMemory({
+  //     id: messageId,
+  //     agentId,
+  //     userId,
+  //     roomId,
+  //     content,
+  //     createdAt: message.createdAt,
+  //   });
+  //   await this.runtime.messageManager.createMemory(memory, true);
+
+  //   // Compose state and update recent message state
+  //   let state = await this.runtime.composeState(memory);
+  //   state = await this.runtime.updateRecentMessageState(state);
+
+  //   // Decide whether to respond using the Farcaster-specific should-respond template
+  //   const shouldRespondContext = composeContext({
+  //     state,
+  //     template:
+  //       this.runtime.character.templates?.farcasterShouldRespondTemplate ||
+  //       farcasterShouldRespondTemplate,
+  //   });
+  //   const shouldRespondResult = await generateShouldRespond({
+  //     runtime: this.runtime,
+  //     context: shouldRespondContext,
+  //     modelClass: ModelClass.MEDIUM,
+  //   });
+
+  //   if (shouldRespondResult === "RESPOND") {
+  //     // Build response context using the Farcaster-specific message handler template
+  //     const context = composeContext({
+  //       state,
+  //       template:
+  //         this.runtime.character.templates?.farcasterMessageHandlerTemplate ||
+  //         farcasterMessageHandlerTemplate,
+  //     });
+  //     const responseContent = await this._generateResponse(memory, state, context);
+  //     if (!responseContent || !responseContent.text) return;
+
+  //     // Send the response via Farcaster – replace with your actual Farcaster posting implementation
+  //     await FarcasterClient.post({
+  //       text: responseContent.text,
+  //       inReplyTo: message.id, // if replying to an existing post
+  //     });
+  //   }
+  // }
 }
