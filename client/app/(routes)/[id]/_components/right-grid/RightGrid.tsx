@@ -4,6 +4,7 @@ import ActivityIndicator from '@/app/_components/activity-indicator/ActivityIndi
 import BuyAndSell from './buy-and-sell/BuyAndSell';
 import FromCard from '@/app/_components/card/FromCard';
 import ToCard from '@/app/_components/card/ToCard';
+import CustomButton from '@/app/_components/custom-button/CustomButton';
 
 const RightGrid = () => {
     return (
@@ -15,6 +16,7 @@ const RightGrid = () => {
             <BuyAndSell />
             <FromCard />
             <ToCard />
+            <CustomButton label='Connect Wallet' className='w-full mt-3' />
         </div >
     );
 };
