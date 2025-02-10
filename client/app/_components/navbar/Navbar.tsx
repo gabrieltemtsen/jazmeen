@@ -4,6 +4,7 @@ import { Coins, Flame, Heart, Sparkle } from 'lucide-react';
 import BadgeItem from './BadgeItem';
 import SearchInput from '../search/Search';
 import Link from 'next/link';
+import CustomButton from '../custom-button/CustomButton';
 
 const Navbar = () => {
     const [isOpen, setIsOpen] = useState(false);
@@ -47,8 +48,8 @@ const Navbar = () => {
                 <div className="flex flex-col ">
                     <div className="flex gap-4 justify-center items-center content-center">
                         <p className='hidden md:block text-gray-300 hover:text-white cursor-pointer'> What is this?</p>
-                        <Button className="hidden md:block bg-slate-500 hover:bg-slate-400 text-white px-4  h-8 rounded">Launch a coin</Button>
-                        <Button className="hidden md:block bg-slate-500 hover:bg-slate-400 text-white px-4  h-8 rounded">Connect</Button>
+                        <CustomButton label='Launch a coin' />
+                        <CustomButton label='Connect' />
                     </div>
                     <div className="hidden md:block mt-4">
                         <SearchInput />
