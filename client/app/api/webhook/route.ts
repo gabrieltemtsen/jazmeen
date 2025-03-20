@@ -42,7 +42,7 @@ async function processCastWithAI(cast: CastV2, botFid: string): Promise<string |
   }
 
   // Check if this is a deployment request
-  if (!text.includes("deploy a token") || !text.includes("with ticker $") || !embeds.some((e: any) => e.type === "image")) {
+  if (!text.includes("deploy a token")) {
     return `Hey cutie ${cast.author.username}, Jazmeen’s here to vibe! Say something like “Hey @jazmeen deploy a token for me NAME with ticker $TICKER with this image” to get started!`;
   }
 
