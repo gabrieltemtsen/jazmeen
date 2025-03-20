@@ -124,7 +124,7 @@ async function processCastWithAI(cast: CastV2, botFid: string): Promise<string |
   }
 
   // Fixed URL path (was missing "/token/")
-  const webUrl = `${process.env.NEXT_PUBLIC_BASE_URL}/token/${deployResult.contractAddress}`;
+  const webUrl = `${process.env.NEXT_PUBLIC_BASE_URL}/${deployResult.contractAddress}`;
   return `Hey cutie ${cast.author.username}, Jazmeen’s got you covered! Your token “${name}” with ticker $${cleanSymbol} is live at ${webUrl}. Go check it out and blow me a kiss! 💋`;
 }
 
