@@ -111,7 +111,7 @@ export async function POST(req: NextRequest) {
       !process.env.NEXT_PUBLIC_SIGNER_UUID ||
       !process.env.NEXT_PUBLIC_NEYNAR_API_KEY ||
       !webhookSecret ||
-      !process.env.OPENAI_API_KEY
+      !process.env.NEXT_PUBLIC_OPENAIKEY
     ) {
       throw new Error(
         "Missing SIGNER_UUID, NEYNAR_API_KEY, NEYNAR_WEBHOOK_SECRET, or OPENAI_API_KEY in .env"
