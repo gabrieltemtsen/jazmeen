@@ -109,8 +109,8 @@ async function processCastWithAI(cast: CastV2, botFid: string): Promise<string |
     return `Oopsie ${cast.author.username}, something went wrong deploying your token: ${deployResult.error || "unknown error"}. Try again, sweetie!`;
   }
 
-  const webUrl = `${process.env.NEXT_PUBLIC_BASE_URL}/token/${deployResult.contractAddress}`;
-  return `Hey cutie ${cast.author.username}, Jazmeen’s got you covered! Your token “${name}” (${cleanSymbol}) is live at ${webUrl}. Go check it out and blow me a kiss! 💋`;
+  const webUrl = `${process.env.NEXT_PUBLIC_BASE_URL}/${deployResult.contractAddress}`;
+  return `Hey cutie ${cast.author.username}, Jazmeen’s got you covered! Your token “${name}” with ticker $${cleanSymbol} is live at ${webUrl}. Go check it out and blow me a kiss! 💋`;
 }
 
 export async function POST(req: NextRequest) {
