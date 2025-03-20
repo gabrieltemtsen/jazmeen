@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 // app/api/og/route.tsx
 import { ImageResponse } from '@vercel/og';
 import Web3 from 'web3';
