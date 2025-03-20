@@ -30,6 +30,7 @@ export async function POST(request: Request): Promise<NextResponse> {
       return NextResponse.json({
         contractAddress: result.contractAddress,
         transactionHash: result.transactionHash,
+        webUrl: result.webUrl,
       });
     } else {
       return NextResponse.json({ error: result.error }, { status: 500 });

@@ -13,6 +13,7 @@ interface DeployResult {
   success: boolean;
   contractAddress?: string; // Token address from event
   transactionHash?: string;
+  webUrl?: string; // URL to view the token
   error?: string;
 }
 
@@ -79,6 +80,7 @@ export async function deploySmartContract({
       success: true,
       contractAddress: tokenAddress,
       transactionHash: receipt.transactionHash.toString(),
+      webUrl: `https://jazmeen.xyz/${tokenAddress}`,
     };
   } catch (error: any) {
     console.error('Contract deployment failed:', error);
