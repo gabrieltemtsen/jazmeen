@@ -7,7 +7,7 @@ import neynarClient from "@/app/utils/neynarClient";
 import OpenAI from "openai";
 
 const openai = new OpenAI({
-  apiKey: process.env.NEXT_PUBLIC_OPENAIKEY,
+  apiKey: process.env.OPENAI_API_KEY, // Use non-public env var for security
 });
 
 interface DeployParams {
@@ -19,20 +19,30 @@ interface DeployParams {
 
 async function deployToken(params: DeployParams): Promise<{ success: boolean; contractAddress?: string; transactionHash?: string; error?: string }> {
   const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/deploy`, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
     body: JSON.stringify(params),
   });
   return response.json();
 }
 
-async function processCastWithAI(cast: CastV2): Promise<string> {
+async function processCastWithAI(cast: CastV2, botFid: string): Promise<string | null> {
   const text = cast.text.toLowerCase();
   const embeds = cast.embeds || [];
   const fid = cast.author.fid.toString();
 
+  // Ignore casts from the bot itself to prevent loops
+  if (fid === botFid) {
+    return null;
+  }
+
+  // Only process casts mentioning @jazmeen
+  if (!text.includes("@jazmeen")) {
+    return null;
+  }
+
   // Check if this is a deployment request
-  if (!text.includes("deploy a token")) {
+  if (!text.includes("deploy a token") || !text.includes("with ticker $") || !embeds.some((e: any) => e.type === "image")) {
     return `Hey cutie ${cast.author.username}, Jazmeen’s here to vibe! Say something like “Hey @jazmeen deploy a token for me NAME with ticker $TICKER with this image” to get started!`;
   }
 
@@ -69,7 +79,7 @@ async function processCastWithAI(cast: CastV2): Promise<string> {
     response_format: { type: "json_object" },
   });
 
-  const result = JSON.parse(response.choices[0].message.content || '{}');
+  const result = JSON.parse(response.choices[0].message.content || "{}");
   const { valid, name, symbol, imageUrl, errorMessage } = result;
 
   if (!valid) {
@@ -89,9 +99,7 @@ async function processCastWithAI(cast: CastV2): Promise<string> {
   }
 
   const webUrl = `${process.env.NEXT_PUBLIC_BASE_URL}/token/${deployResult.contractAddress}`;
-  return `Hey cutie ${cast.author.username}, Jazmeen’s got you covered! Your token “${name}” (${
-    symbol.slice(1)
-  }) is live at ${webUrl}. Go check it out and blow me a kiss! 💋`;
+  return `Hey cutie ${cast.author.username}, Jazmeen’s got you covered! Your token “${name}” (${symbol.slice(1)}) is live at ${webUrl}. Go check it out and blow me a kiss! 💋`;
 }
 
 export async function POST(req: NextRequest) {
@@ -102,10 +110,11 @@ export async function POST(req: NextRequest) {
     if (
       !process.env.NEXT_PUBLIC_SIGNER_UUID ||
       !process.env.NEXT_PUBLIC_NEYNAR_API_KEY ||
-      !webhookSecret
+      !webhookSecret ||
+      !process.env.OPENAI_API_KEY
     ) {
       throw new Error(
-        "Missing SIGNER_UUID, NEYNAR_API_KEY, or NEYNAR_WEBHOOK_SECRET in .env"
+        "Missing SIGNER_UUID, NEYNAR_API_KEY, NEYNAR_WEBHOOK_SECRET, or OPENAI_API_KEY in .env"
       );
     }
 
@@ -128,8 +137,18 @@ export async function POST(req: NextRequest) {
       data: CastV2;
     };
 
-    // Process cast with OpenAI and get reply
-    const replyText = await processCastWithAI(hookData.data);
+    // Fetch bot's FID to filter self-replies (you’ll need to set this manually or fetch from Neynar)
+    const botFid = '980217'; // Add this to .env
+    if (!botFid) {
+      throw new Error("NEXT_PUBLIC_BOT_FID missing in .env");
+    }
+
+    // Process cast with AI
+    const replyText = await processCastWithAI(hookData.data, botFid);
+    if (!replyText) {
+      // No reply needed, silently exit
+      return NextResponse.json({ message: "Ignored cast" }, { status: 200 });
+    }
 
     // Send reply via Neynar
     const reply = await neynarClient.publishCast(
