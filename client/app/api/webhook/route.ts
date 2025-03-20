@@ -7,7 +7,7 @@ import neynarClient from "@/app/utils/neynarClient";
 import OpenAI from "openai";
 
 const openai = new OpenAI({
-  apiKey: process.env.NEXT_PUBLIC_OPENAIKEY, // Use non-public env var for security
+  apiKey: process.env.NEXT_PUBLIC_OPENAIKEY, // Non-public for server-side
 });
 
 interface DeployParams {
@@ -31,40 +31,39 @@ async function processCastWithAI(cast: CastV2, botFid: string): Promise<string |
   const embeds = cast.embeds || [];
   const fid = cast.author.fid.toString();
 
-  // Ignore casts from the bot itself to prevent loops
+  // Ignore casts from the bot to prevent loops
   if (fid === botFid) {
+    console.log(`Ignoring cast from bot FID: ${fid}`);
     return null;
   }
 
   // Only process casts mentioning @jazmeen
   if (!text.includes("@jazmeen")) {
+    console.log(`No @jazmeen mention in cast: ${text}`);
     return null;
   }
 
-  // Check if this is a deployment request
-  if (!text.includes("deploy a token")) {
-    return `Hey cutie ${cast.author.username}, Jazmeen’s here to vibe! Say something like “Hey @jazmeen deploy a token for me NAME with ticker $TICKER with this image” to get started!`;
-  }
-
-  // Use OpenAI to parse the request
+  // Use OpenAI to flexibly parse the request
   const prompt = `
-    You are Jazmeen, a sassy, flirty, and fun AI assistant. Parse this Farcaster cast for a token deployment request:
+    You are Jazmeen, a sassy, flirty, and fun AI assistant. Parse this Farcaster cast to detect a token deployment request:
     Text: "${cast.text}"
     Embeds: ${JSON.stringify(embeds)}
 
+    Look for intent to create a token (e.g., "deploy a token", "make me a token", "create a coin", etc.).
     Extract:
     - Token name (e.g., "GABRIEL")
-    - Ticker/symbol (e.g., "$GABE")
-    - Image URL (from embeds, must be an image link)
+    - Ticker/symbol (e.g., "$GABE" or "GABE", $ is optional)
+    - Image URL (from embeds, prefer .jpg, .png, or similar image links)
 
     Rules:
-    - Name and symbol are required.
-    - Symbol must start with "$".
-    - Image URL must be present in embeds (e.g., a .jpg, .png link).
-    - If anything’s missing, respond with a flirty error message asking for it.
+    - Name and symbol are required; if missing, ask for them flirtily.
+    - Image URL is required; if missing from embeds, request it.
+    - Be flexible with phrasing and don’t enforce strict formats.
+    - If no deployment intent, suggest how to request one.
 
     Output in JSON:
     {
+      "intent": "deploy" | "none",
       "valid": boolean,
       "name": string | null,
       "symbol": string | null,
@@ -80,26 +79,38 @@ async function processCastWithAI(cast: CastV2, botFid: string): Promise<string |
   });
 
   const result = JSON.parse(response.choices[0].message.content || "{}");
-  const { valid, name, symbol, imageUrl, errorMessage } = result;
+  console.log("OpenAI result:", result); // Debug log
 
-  if (!valid) {
-    return `Oh honey ${cast.author.username}, ${errorMessage || "you forgot something! Try again with 'Hey @jazmeen deploy a token for me NAME with ticker $TICKER with this image' and attach an image, kay?"} *wink*`;
+  const { intent, valid, name, symbol, imageUrl, errorMessage } = result;
+
+  // No deployment intent
+  if (intent !== "deploy") {
+    return `Hey cutie ${cast.author.username}, Jazmeen’s here to vibe! Wanna make a token? Just say something like “Hey @jazmeen, make me a token NAME with ticker TICKER and this image”! *wink*`;
   }
+
+  // Invalid request
+  if (!valid) {
+    return `Oh honey ${cast.author.username}, ${errorMessage || "you forgot something! Try again with a name, ticker, and an image, kay?"} *blows a kiss*`;
+  }
+
+  // Normalize symbol (remove $ if present)
+  const cleanSymbol = symbol.startsWith("$") ? symbol.slice(1) : symbol;
 
   // Deploy the token
   const deployResult = await deployToken({
     name,
-    symbol: symbol.slice(1), // Remove "$" for contract
+    symbol: cleanSymbol,
     url: imageUrl,
     fid,
   });
+  console.log("Deploy result:", deployResult); // Debug log
 
   if (!deployResult.success) {
     return `Oopsie ${cast.author.username}, something went wrong deploying your token: ${deployResult.error || "unknown error"}. Try again, sweetie!`;
   }
 
   const webUrl = `${process.env.NEXT_PUBLIC_BASE_URL}/token/${deployResult.contractAddress}`;
-  return `Hey cutie ${cast.author.username}, Jazmeen’s got you covered! Your token “${name}” (${symbol.slice(1)}) is live at ${webUrl}. Go check it out and blow me a kiss! 💋`;
+  return `Hey cutie ${cast.author.username}, Jazmeen’s got you covered! Your token “${name}” (${cleanSymbol}) is live at ${webUrl}. Go check it out and blow me a kiss! 💋`;
 }
 
 export async function POST(req: NextRequest) {
@@ -137,16 +148,12 @@ export async function POST(req: NextRequest) {
       data: CastV2;
     };
 
-    // Fetch bot's FID to filter self-replies (you’ll need to set this manually or fetch from Neynar)
-    const botFid = '980217'; // Add this to .env
-    if (!botFid) {
-      throw new Error("NEXT_PUBLIC_BOT_FID missing in .env");
-    }
+    // Use bot FID (hardcoded for now, move to .env)
+    const botFid = "980217"; 
 
     // Process cast with AI
     const replyText = await processCastWithAI(hookData.data, botFid);
     if (!replyText) {
-      // No reply needed, silently exit
       return NextResponse.json({ message: "Ignored cast" }, { status: 200 });
     }
 
