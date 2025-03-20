@@ -7,7 +7,7 @@ import neynarClient from "@/app/utils/neynarClient";
 import OpenAI from "openai";
 
 const openai = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY, // Use non-public env var for security
+  apiKey: process.env.NEXT_PUBLIC_OPENAIKEY, // Use non-public env var for security
 });
 
 interface DeployParams {
