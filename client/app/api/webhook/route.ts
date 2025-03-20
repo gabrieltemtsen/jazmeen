@@ -6,8 +6,11 @@ import { createHmac } from "crypto";
 import neynarClient from "@/app/utils/neynarClient";
 import OpenAI from "openai";
 
+// Store processed cast hashes to prevent duplicates (in-memory for now)
+const processedCasts = new Set<string>();
+
 const openai = new OpenAI({
-  apiKey: process.env.NEXT_PUBLIC_OPENAIKEY, // Non-public for server-side
+  apiKey: process.env.OPENAI_API_KEY, // Non-public for server-side
 });
 
 interface DeployParams {
@@ -18,24 +21,36 @@ interface DeployParams {
 }
 
 async function deployToken(params: DeployParams): Promise<{ success: boolean; contractAddress?: string; transactionHash?: string; error?: string }> {
+  console.log("Deploying token with params:", params); // Debug log
   const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/deploy`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(params),
   });
-  return response.json();
+  const result = await response.json();
+  console.log("Deploy response:", result); // Debug log
+  return result;
 }
 
 async function processCastWithAI(cast: CastV2, botFid: string): Promise<string | null> {
   const text = cast.text.toLowerCase();
   const embeds = cast.embeds || [];
   const fid = cast.author.fid.toString();
+  const castHash = cast.hash;
 
   // Ignore casts from the bot to prevent loops
   if (fid === botFid) {
-    console.log(`Ignoring cast from bot FID: ${fid}`);
+    console.log(`Ignoring cast from bot FID: ${fid}, hash: ${castHash}`);
     return null;
   }
+
+  // Check for duplicate casts
+  if (processedCasts.has(castHash)) {
+    console.log(`Duplicate cast detected, hash: ${castHash}`);
+    return null;
+  }
+  processedCasts.add(castHash);
+  console.log(`Processing new cast, hash: ${castHash}, text: ${text}`);
 
   // Only process casts mentioning @jazmeen
   if (!text.includes("@jazmeen")) {
@@ -96,20 +111,20 @@ async function processCastWithAI(cast: CastV2, botFid: string): Promise<string |
   // Normalize symbol (remove $ if present)
   const cleanSymbol = symbol.startsWith("$") ? symbol.slice(1) : symbol;
 
-  // Deploy the token
+  // Deploy the token (only once)
   const deployResult = await deployToken({
     name,
     symbol: cleanSymbol,
     url: imageUrl,
     fid,
   });
-  console.log("Deploy result:", deployResult); // Debug log
 
   if (!deployResult.success) {
     return `Oopsie ${cast.author.username}, something went wrong deploying your token: ${deployResult.error || "unknown error"}. Try again, sweetie!`;
   }
 
-  const webUrl = `${process.env.NEXT_PUBLIC_BASE_URL}/${deployResult.contractAddress}`;
+  // Fixed URL path (was missing "/token/")
+  const webUrl = `${process.env.NEXT_PUBLIC_BASE_URL}/token/${deployResult.contractAddress}`;
   return `Hey cutie ${cast.author.username}, Jazmeen’s got you covered! Your token “${name}” with ticker $${cleanSymbol} is live at ${webUrl}. Go check it out and blow me a kiss! 💋`;
 }
 
@@ -122,7 +137,7 @@ export async function POST(req: NextRequest) {
       !process.env.NEXT_PUBLIC_SIGNER_UUID ||
       !process.env.NEXT_PUBLIC_NEYNAR_API_KEY ||
       !webhookSecret ||
-      !process.env.NEXT_PUBLIC_OPENAIKEY
+      !process.env.OPENAI_API_KEY // Fixed env var name
     ) {
       throw new Error(
         "Missing SIGNER_UUID, NEYNAR_API_KEY, NEYNAR_WEBHOOK_SECRET, or OPENAI_API_KEY in .env"
@@ -148,8 +163,8 @@ export async function POST(req: NextRequest) {
       data: CastV2;
     };
 
-    // Use bot FID (hardcoded for now, move to .env)
-    const botFid = "980217"; 
+    // Use bot FID
+    const botFid = process.env.NEXT_PUBLIC_BOT_FID || "980217"; // Fallback to hardcoded if env missing
 
     // Process cast with AI
     const replyText = await processCastWithAI(hookData.data, botFid);
@@ -170,3 +185,10 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: error.message }, { status: 500 });
   }
 }
+
+// Clear processed casts on server restart (optional, for memory management)
+export const config = {
+  api: {
+    bodyParser: true,
+  },
+};
