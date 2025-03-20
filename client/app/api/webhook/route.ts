@@ -3,11 +3,8 @@ import { NextRequest, NextResponse } from "next/server";
 import { Cast as CastV2 } from "@neynar/nodejs-sdk/build/neynar-api/v2/openapi-farcaster/models/cast.js";
 import { createHmac } from "crypto";
 import neynarClient from "@/app/utils/neynarClient";
-/**
- * Post to /framebot/reply?secret=.... with body type: { data: { author: { username: string }, hash: string } }
- * One way to do this is to use a neynar webhook.
- */
-export async function POST(req: NextRequest, res: NextResponse) {
+
+export async function POST(req: NextRequest) {  // Removed res parameter
   const body = await req.text();
 
   const webhookSecret = process.env.NEXT_PUBLIC_NEYNAR_WEBHOOK_SECRET;
@@ -18,7 +15,7 @@ export async function POST(req: NextRequest, res: NextResponse) {
     !webhookSecret
   ) {
     throw new Error(
-      "Make sure you set SIGNER_UUID , NEYNAR_API_KEY and  NEYNAR_WEBHOOK_SECRET in your .env file"
+      "Make sure you set SIGNER_UUID, NEYNAR_API_KEY and NEYNAR_WEBHOOK_SECRET in your .env file"
     );
   }
 
