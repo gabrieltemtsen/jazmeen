@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "@nextui-org/react": "^2.6.8",
+    "@neynar/nodejs-sdk": "^1.71.0",
     "@radix-ui/react-avatar": "^1.1.3",
     "@radix-ui/react-icons": "^1.3.2",
     "@radix-ui/react-label": "^2.1.2",
@@ -19,7 +20,7 @@
     "@radix-ui/react-separator": "^1.1.2",
     "@radix-ui/react-slot": "^1.1.1",
     "@tanstack/react-query": "^5.60.5",
-    "axios": "^1.7.7",
+    "axios": "^1.8.4",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "framer-motion": "^11.14.4",
