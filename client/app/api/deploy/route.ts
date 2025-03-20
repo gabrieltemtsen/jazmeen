@@ -28,6 +28,7 @@ export async function POST(request: Request): Promise<NextResponse> {
 
     if (result.success) {
       return NextResponse.json({
+        success: true,
         contractAddress: result.contractAddress,
         transactionHash: result.transactionHash,
         webUrl: result.webUrl,
