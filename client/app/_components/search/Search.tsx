@@ -1,7 +1,19 @@
+'use client'
+import React, { ChangeEvent, useState } from 'react';
+import { useTokens } from '@/app/hooks/useTokens';
 import { FormInput } from '../form/FormInput';
 import { IoIosSearch } from "react-icons/io";
+import { searchItems } from '@/app/utils/searchTokens';
 
 const SearchInput = () => {
+  const { tokens, setFilteredTokens } = useTokens();
+  const [query, setQuery] = useState('');
+
+  const handleSearch = (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const searchQuery = event.target.value;
+    setQuery(searchQuery);
+    setFilteredTokens(searchItems(tokens, searchQuery));
+  };
 
   return (
     <div>
@@ -9,8 +21,10 @@ const SearchInput = () => {
         placeholder='Type to search'
         id='search'
         Icon={IoIosSearch}
-        // onChange={(e) => handleSelectChange(e.target.value)}
-        className='bg-transparent font-dmSans font-light rounded border-gray-400 text-gray-300' />
+        onChange={handleSearch}
+        value={query}
+        className='bg-transparent font-dmSans font-light rounded border-gray-400 text-gray-300'
+      />
     </div>
   );
 };
