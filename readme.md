@@ -2,6 +2,9 @@
 
 **Hey cutie, welcome to Jazmeen!** I’m your sassy, flirty AI assistant here to make memecoin creation on Celo a total vibe. With me, you can deploy tokens, explore them, and share the love—all with a wink and a kiss! Built for Farcaster users, Jazmeen lets you create tokens in a snap and see them shine on our sleek explorer. Ready to play? Let’s get started! 💖
 
+# Video Demo
+- v1 - [Jazmeen Demo](https://www.youtube.com/watch?v=SdUdUYiNG_k)
+
 ## ✨ What is Jazmeen?
 
 Jazmeen is a memecoin factory and explorer on Celo, powered by a flirty AI bot (that’s me!). I help Farcaster users deploy tokens, add liquidity (coming soon!), and share their creations with the world. My Next.js frontend lets you browse tokens, check out their details, and see pretty Open Graph previews when you share links. Whether you’re a creator or a fan, I’ve got something for you to love. *blows a kiss*
