@@ -4,12 +4,10 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { cn } from "@/lib/utils";
-import { forwardRef } from "react";
+import { forwardRef, ForwardedRef } from "react";
 import { useFormStatus } from "react-dom";
 import CustomIcon from "../icons/custom-icons";
 import { TriangleAlert } from "lucide-react";
-
-
 
 interface FormInputProps {
   id: string;
@@ -36,7 +34,7 @@ interface FormInputProps {
   checked?: boolean;
 }
 
-export const FormInput = forwardRef<HTMLInputElement, FormInputProps>(
+export const FormInput = forwardRef<HTMLInputElement | HTMLTextAreaElement, FormInputProps>(
   (
     {
       id,
@@ -67,7 +65,7 @@ export const FormInput = forwardRef<HTMLInputElement, FormInputProps>(
     return (
       <div className="space-y-2">
         <div className="space-y-1 mb-1 relative">
-          {label ? (
+          {label && (
             <Label
               htmlFor={id}
               className={cn(
@@ -77,62 +75,53 @@ export const FormInput = forwardRef<HTMLInputElement, FormInputProps>(
             >
               {label}
             </Label>
-          ) : null}
+          )}
           <div className="relative">
-            {
-              type === 'textArea'
-                ? (
-                  <Textarea
-                    onBlur={onBlur}
-                    onChange={onChange}
-                    defaultValue={defaultValue}
-
-                    // @ts-ignore
-                    ref={ref}
-                    required={required}
-                    name={id}
-                    min={min}
-                    value={value}
-                    id={id}
-                    className={cn(
-                      "text-sm px-2 py-1 h-10 pr-10 focus:ring-primary-foreground",
-                      className,
-                      error && "focus-visible:ring-red-500 focus:border-red-500"
-                    )}
-                  placeholder={placeholder}
-                  />
-                )
-                : (
-                  <Input
-                    onBlur={onBlur}
-                    onChange={onChange}
-                    defaultValue={defaultValue}
-                    ref={ref}
-                    required={required}
-                    name={id}
-                    min={min}
-                    value={value}
-                    id={id}
-                    placeholder={placeholder}
-                    type={type}
-                    max={max}
-                    checked={checked}
-                    disabled={pending || disabled}
-                    className={cn(
-                      "text-sm px-2 py-1 h-10 pr-10 focus:ring-primary-foreground",
-                      className,
-                      error && "focus-visible:ring-red-500 focus:border-red-500"
-                    )}
-                    aria-describedby={`${id}-error`}
-                  />
-                )
-            }
+            {type === 'textArea' ? (
+              <Textarea
+                onBlur={onBlur}
+                onChange={onChange}
+                value={value !== undefined ? value : defaultValue}
+                ref={ref as ForwardedRef<HTMLTextAreaElement>}
+                required={required}
+                name={id}
+                id={id}
+                className={cn(
+                  "text-sm px-2 py-1 h-10 pr-10 focus:ring-primary-foreground",
+                  className,
+                  error && "focus-visible:ring-red-500 focus:border-red-500"
+                )}
+                placeholder={placeholder}
+              />
+            ) : (
+              <Input
+                onBlur={onBlur}
+                onChange={onChange}
+                value={value !== undefined ? value : defaultValue}
+                ref={ref as ForwardedRef<HTMLInputElement>}
+                required={required}
+                name={id}
+                min={min}
+                max={max}
+                id={id}
+                placeholder={placeholder}
+                type={type}
+                checked={checked}
+                disabled={pending || disabled}
+                className={cn(
+                  "text-sm px-2 py-1 h-10 pr-10 focus:ring-primary-foreground",
+                  className,
+                  error && "focus-visible:ring-red-500 focus:border-red-500"
+                )}
+                aria-describedby={`${id}-error`}
+              />
+            )}
             {Icon && (
               <div className="absolute inset-y-0 right-0 pr-3 flex items-center">
                 <CustomIcon
                   className={cn("text-gray-400", onIconClick && 'cursor-pointer', iconClassName)}
                   Icon={Icon}
-                  isButton={onIconClick ? true : false}
+                  isButton={!!onIconClick}
                   onClick={onIconClick}
                   size={iconSize}
                 />
