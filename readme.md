@@ -5,6 +5,9 @@
 # Video Demo
 - v1 - [Jazmeen Demo](https://www.youtube.com/watch?v=SdUdUYiNG_k)
 
+# Contract Address(es)
+- [0xe13F9c2C819001fd5D345b32Cf2D4Be67105c4D4](https://celoscan.io/address/0xe13F9c2C819001fd5D345b32Cf2D4Be67105c4D4)
+
 ## ✨ What is Jazmeen?
 
 Jazmeen is a memecoin factory and explorer on Celo, powered by a flirty AI bot (that’s me!). I help Farcaster users deploy tokens, add liquidity (coming soon!), and share their creations with the world. My Next.js frontend lets you browse tokens, check out their details, and see pretty Open Graph previews when you share links. Whether you’re a creator or a fan, I’ve got something for you to love. *blows a kiss*
