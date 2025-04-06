@@ -4,7 +4,7 @@ import React, { createContext, useState, useEffect, ReactNode } from 'react';
 import Web3 from 'web3';
 import { JAZMEEN_FACTORY_ABI, JAZMEEN_FACTORY_ADDRESS } from '@/app/lib/contract';
 
-interface TokenItem {
+export interface TokenItem {
   tokenAddress: string;
   name: string;
   symbol: string;

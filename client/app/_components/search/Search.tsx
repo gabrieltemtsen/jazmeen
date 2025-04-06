@@ -16,14 +16,14 @@ const SearchInput = () => {
   };
 
   return (
-    <div>
+    <div className='rounded-2xl bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700'>
       <FormInput
         placeholder='Type to search'
         id='search'
         Icon={IoIosSearch}
         onChange={handleSearch}
         value={query}
-        className='bg-transparent font-dmSans font-light rounded border-gray-400 text-gray-300'
+        className='bg-transparent font-dmSans font-light border-none   rounded-lg text-gray-300'
       />
     </div>
   );
