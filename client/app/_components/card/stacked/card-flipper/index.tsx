@@ -1,7 +1,10 @@
 'use client';
 import React, { useState, useRef, MouseEvent } from 'react';
 import { motion } from 'framer-motion';
-import Card from '../card';
+import { TokenItem } from '@/app/context/token';
+import FrontCard from '../front-card';
+import { TokenCardMinimal } from '../back-card';
+import { spaceCity1, spaceCity2 } from '@/constants/ImageExport';
 
 interface MouseTrack {
     startX: number | null;
@@ -9,12 +12,7 @@ interface MouseTrack {
 }
 
 interface CardFlipperProps {
-    eachData: {
-        title: string;
-        subtitle: string;
-        rating: string;
-        image: string;
-    };
+    eachData: TokenItem;
     index: number;
 }
 
@@ -73,19 +71,19 @@ const CardFlipper: React.FC<CardFlipperProps> = ({ eachData, index }) => {
                 style={{ transformStyle: "preserve-3d" }}
             >
                 <div className="flip-card-front w-full h-full">
-                    <div className="w-full h-full">
-                        <Card
-                            title={eachData.title}
-                            subtitle={eachData.subtitle}
-                            rating={eachData.rating}
-                            image={eachData.image}
+                    <div className="w-full h-full ">
+                        <FrontCard
+                            title={eachData.name}
+                            tokenAddress={eachData.tokenAddress}
+                            rating={eachData.symbol}
+                            image={eachData.imageUrl}
                             className={index !== 0 ? 'shadow-lg' : ''}
                         />
                     </div>
                 </div>
 
-                <div className="flip-card-back flip-card !h-[350px] w-[250px] bg-green-600 text-white rounded-[10%] p-5 flex flex-col items-center justify-center">
-                    <div className="">back</div>
+                <div className="flip-card-back flip-card !h-[350px] overflow-hidden w-[250px] bg-gradient-custom text-white rounded-[10%] p-5 flex flex-col items-center justify-center" style={{ backgroundImage: `url(${spaceCity1})` }}>
+                   <TokenCardMinimal token={eachData} />
                 </div>
             </motion.div>
         </div>

@@ -21,7 +21,7 @@ interface RightGridProps {
 
 const RightGrid: React.FC<RightGridProps> = ({ token }) => {
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col bg-gray-800 p-4 overflow-hidden " style={{borderRadius: '20px'}}>
       <RowOne token={token} />
       <div>
         <ActivityIndicator

@@ -16,7 +16,7 @@ const SearchInput = () => {
   };
 
   return (
-    <div className='rounded-2xl bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700'>
+    <div className='rounded-2xl bg-gradient-custom'>
       <FormInput
         placeholder='Type to search'
         id='search'

@@ -64,11 +64,11 @@ const Navbar = () => {
                             <SearchInput />
                         </div> 
                         
-                        <Button className="bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 text-white px-4 py-2 text-sm rounded-full transition-all">
+                        <Button className="bg-gradient-custom text-white px-4 py-2 text-sm rounded-full transition-all">
                             Launch a coin
                         </Button>
                         
-                        <Button className="bg-gray-800 hover:bg-gray-700 text-white border border-gray-700 px-4 py-2 text-sm rounded-full transition-all">
+                        <Button className="bg-gray-800 hover:bg-gray-700 text-white border bg-gradient-custom border-gray-700 px-4 py-2 text-sm rounded-full transition-all">
                             Connect
                         </Button>
                     </div>
@@ -110,11 +110,7 @@ const Navbar = () => {
                             <SearchInput />
                         </div>
                         
-                        <div className="flex flex-col space-y-3 pt-2">
-                            <button className="text-gray-300 hover:text-white text-sm w-full text-left py-2">
-                                What is this?
-                            </button>
-                            
+                        <div className="flex flex-col space-y-3 pt-2">  
                             <Button className="bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 text-white py-2 text-sm rounded-full transition-all w-full">
                                 Launch a coin
                             </Button>

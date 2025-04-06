@@ -7,11 +7,11 @@ interface DataItem {
   
 
 // Function to chunk an array into groups of specified size
-  export const chunkArray = (array: DataItem[], size: number): DataItem[][] => {
-    const chunks: DataItem[][] = [];
-    for (let i = 0; i < array.length; i += size) {
-      chunks.push(array.slice(i, i + size));
-    }
-    return chunks;
-  };
-  
+// Function to chunk an array into groups of specified size
+const chunkArray = <T,>(array: T[], size: number): T[][] => {
+  const chunks: T[][] = [];
+  for (let i = 0; i < array.length; i += size) {
+    chunks.push(array.slice(i, i + size));
+  }
+  return chunks;
+};

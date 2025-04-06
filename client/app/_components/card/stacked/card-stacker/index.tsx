@@ -1,19 +1,12 @@
 import React, { SetStateAction, useState } from 'react';
-import Card from '../card';
+import Card from '../front-card';
 import { TokenItem } from '@/app/context/token';
 import CardFlipper from '../card-flipper';
 
 interface CardStackerProps {
-  data: Array<{
-    title: string,
-    subtitle: string,
-    rating: string,
-    // backgroundColors: { top: string, bottom: string },
-    image: string;
-  }>;
-  filteredTokens: TokenItem[];
+  data: TokenItem[];
 }
-const CardStacker = ({ data, filteredTokens }: CardStackerProps) => {
+const CardStacker = ({ data }: CardStackerProps) => {
   const [hoveredIndex, setHoveredIndex] = useState(null);
 
   return (
@@ -46,7 +39,6 @@ const CardStacker = ({ data, filteredTokens }: CardStackerProps) => {
             <CardFlipper
               eachData={eachData}
               index={index}
-              // filteredTokens={filteredTokens}
             />
           </div>
         );

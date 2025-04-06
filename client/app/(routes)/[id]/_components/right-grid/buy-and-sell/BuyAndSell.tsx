@@ -5,7 +5,7 @@ import React from 'react';
 
 const BuyAndSell = () => {
     return (
-        <div className="flex justify-between pr-20 mt-3">
+        <div className="flex justify-between pr-20 mt-3 ">
             <div className="flex gap-8">
                 <CustomButton label='Buy' className='bg-slate-500 hover:bg-slate-400 text-white px-4  h-8 rounded' />
                 <CustomButton label='Sell' className='bg-transparent' />
