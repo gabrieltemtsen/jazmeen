@@ -1,18 +1,26 @@
+import React from 'react';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
-import React from 'react';
 
 interface CustomButtonProps {
-    label: string;
-    className?: string;
+  label: string;
+  className?: string;
+  onClick?: () => void;
+  disabled?: boolean;
 }
 
-const CustomButton = ({ label, className }: CustomButtonProps) => {
-    return (
-        <div>
-            <Button className={cn("hidden md:block bg-slate-500 hover:bg-slate-400 text-white px-4  h-8 rounded", className)}>{label}</Button>
-        </div>
-    );
+const CustomButton: React.FC<CustomButtonProps> = ({ label, className, onClick, disabled }) => {
+  return (
+    <div>
+      <Button
+        onClick={onClick}
+        disabled={disabled}
+        className={cn("hidden md:block bg-slate-500 hover:bg-slate-400 text-white px-4 h-8 rounded", className)}
+      >
+        {label}
+      </Button>
+    </div>
+  );
 };
 
 export default CustomButton;
