@@ -1,6 +1,8 @@
-import { Bg, spaceCity1, spaceCity2 } from '@/constants/ImageExport';
+import { Bg, spaceCity2 } from '@/constants/ImageExport';
 import Link from 'next/link';
+import Image from 'next/image';
 import React from 'react';
+
 interface FrontCardProps {
   title: string;
   tokenAddress: string;
@@ -15,18 +17,15 @@ const FrontCard: React.FC<FrontCardProps> = ({
   rating,
   className = "",
   image,
-  // backgroundColors, // Uncomment if you want to use this prop
 }) => {
-
   return (
     <div
       className={'card flex flex-col justify-center p-3 sm:p-5 rounded-[10%] border border-gray-400/40 relative text-white overflow-hidden h-fit w-fit z-10 hover:-translate-y-10 transition-all duration-300 ' + className}
       style={{ backgroundImage: `url(${spaceCity2})` }}
     >
       <Link href={`/${tokenAddress}`} className="block border-gray-700 rounded">
-
         <div className="inset-0 absolute z-0">
-          <img src={Bg} alt="background" className="w-full h-full object-cover opacity-10" />
+          <Image src={Bg} alt="background" className="w-full h-full object-cover opacity-10" layout="fill" />
         </div>
         <div className="flex items-center justify-between z-10">
           <div>
@@ -40,13 +39,16 @@ const FrontCard: React.FC<FrontCardProps> = ({
             <p className="text-xs">{rating}</p>
           </div>
         </div>
-        <img
+        <Image
           src={image}
           alt={title}
           className="w-52 h-52 sm:w-40 md:w-52 sm:h-40 md:h-52 object-contain mt-3 sm:mt-5 bg-gray-800 rounded-full drop-shadow-[0_2px_2px_rgba(0,0,0,0.3)] mx-2 sm:mx-5 mb-3 sm:mb-7"
+          width={208} // Adjust width as needed
+          height={208} // Adjust height as needed
         />
       </Link>
     </div>
   );
 };
+
 export default FrontCard;
