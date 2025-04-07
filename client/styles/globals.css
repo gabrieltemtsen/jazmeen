@@ -24,3 +24,12 @@ body {
            rounded-lg;
   }
 }
+
+.bg-gradient-custom {
+  background: linear-gradient(to right, #9333ea, #6366f1); /* Purple 600 to Indigo 600 */
+  transition: background 0.3s ease;
+}
+
+.bg-gradient-custom:hover {
+  background: linear-gradient(to right, #7e22ce, #555bd6); /* Purple 700 to Indigo 700 */
+}

@@ -19,7 +19,7 @@ const RowOne: React.FC<RowOneProps> = ({ token }) => {
   return (
     <div className="flex gap-3">
       <div
-        style={{ backgroundImage: `url(${token.imageUrl || cardBgImage})` }}
+        style={{ backgroundImage: `url(${token.imageUrl || cardBgImage})`, borderRadius:'10px' }}
         className="col-span-4 bg-cover bg-no-repeat row-span-2 h-28 w-24 p-4 rounded-lg"
       />
       <div className="flex flex-col justify-between">

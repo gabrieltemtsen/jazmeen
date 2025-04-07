@@ -109,7 +109,7 @@ export const FormInput = forwardRef<HTMLInputElement | HTMLTextAreaElement, Form
                 checked={checked}
                 disabled={pending || disabled}
                 className={cn(
-                  "text-sm px-2 py-1 h-10 pr-10 focus:ring-primary-foreground",
+                  "text-sm px-2 py-1 h-10 pr-10 focus:ring-primary-foreground ",
                   className,
                   error && "focus-visible:ring-red-500 focus:border-red-500"
                 )}

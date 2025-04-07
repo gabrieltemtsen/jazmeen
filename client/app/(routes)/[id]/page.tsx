@@ -16,7 +16,7 @@ interface TokenInfo {
 }
 
 interface UserProps {
-  params: Promise<{ id: string }>;
+  params: Promise<{ id: string; }>;
 }
 
 async function fetchTokenData(tokenAddress: string): Promise<TokenInfo | null> {
@@ -96,7 +96,7 @@ const User = async ({ params }: UserProps) => {
   }
 
   return (
-    <div className="border-gray-700 rounded p-4">
+    <div className="border-gray-700 rounded p-4 -mt-8">
       <div className="grid grid-cols-12 gap-4">
         <div className="col-span-12 xl:col-span-8 rounded-lg">
           <TradingViewWidget symbol={tokenData.symbol} />
