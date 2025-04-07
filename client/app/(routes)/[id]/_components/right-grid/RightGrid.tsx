@@ -25,7 +25,7 @@ interface DeployResponse {
   contractAddress?: string;
   transactionHash?: string;
   webUrl?: string;
-  error?: string; 
+  error?: string;
 }
 
 const RightGrid: React.FC<RightGridProps> = ({ token }) => {
@@ -48,6 +48,7 @@ const RightGrid: React.FC<RightGridProps> = ({ token }) => {
     try {
       const res = await axios.post<DeployResponse>('/api/deploy', formData);
       setResponse(res.data);
+      console.log(response);
     } catch (err: unknown) {
       const axiosError = err as AxiosError<DeployResponse>;
       setError(axiosError.response?.data?.error || 'Failed to deploy contract');
