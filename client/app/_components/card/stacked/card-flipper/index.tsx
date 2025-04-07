@@ -4,7 +4,7 @@ import { motion } from 'framer-motion';
 import { TokenItem } from '@/app/context/token';
 import FrontCard from '../front-card';
 import { TokenCardMinimal } from '../back-card';
-import { spaceCity1, spaceCity2 } from '@/constants/ImageExport';
+import { spaceCity1 } from '@/constants/ImageExport';
 
 interface MouseTrack {
     startX: number | null;

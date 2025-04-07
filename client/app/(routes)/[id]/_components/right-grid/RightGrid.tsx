@@ -76,12 +76,12 @@ const RightGrid: React.FC<RightGridProps> = ({ token }) => {
         disabled={loading}
       />
       <CustomButton label="Connect Wallet" className="w-full mt-3" />
-      {response && (
+      {/* {response && (
         <div>
           <h3>Response:</h3>
           <pre>{JSON.stringify(response, null, 2)}</pre>
         </div>
-      )}
+      )} */}
       {error && (
         <div>
           <p className='text-red-500 text-xs mt-1'>{error}</p>

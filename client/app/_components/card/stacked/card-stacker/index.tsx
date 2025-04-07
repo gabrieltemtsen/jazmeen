@@ -1,5 +1,4 @@
 import React, { SetStateAction, useState } from 'react';
-import Card from '../front-card';
 import { TokenItem } from '@/app/context/token';
 import CardFlipper from '../card-flipper';
 

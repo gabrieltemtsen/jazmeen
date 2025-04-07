@@ -5,7 +5,6 @@ import TokenCards from '@/app/_components/card/stacked';
 
 const Home: React.FC = () => {
   const { filteredTokens, loading } = useTokens();
-console.log(324234, filteredTokens);
   if (loading) {
     return <div className="text-gray-100 px-4">Loading tokens...</div>;
   }

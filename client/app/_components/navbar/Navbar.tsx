@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
-import { Coins, Flame, Heart, Sparkle, Menu, X, Search } from 'lucide-react';
+import { Coins, Flame, Heart, Sparkle, Menu, X } from 'lucide-react';
 import Link from 'next/link';
 import SearchInput from '../search/Search';
 
